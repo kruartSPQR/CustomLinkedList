@@ -1,82 +1,90 @@
 package org.example;
 
 import java.util.NoSuchElementException;
+
 public class CustomLinkedList<E> {
     int sizeOfList;
-    private Node <E> first;
+    private Node<E> first;
     private Node<E> last;
 
-    static class Node<E>{
+    private static class Node<E> {
         E data;
         Node<E> next;
         Node<E> prev;
-        Node(E value){
+
+        Node(E value) {
             this.data = value;
         }
     }
+
     public int size() {
         return sizeOfList;
     }
+
     public E get(int index) {
-        if (index < 0 || index >= sizeOfList) {throw new IndexOutOfBoundsException("Index: " + index + " out of range");}
+        if (index < 0 || index >= sizeOfList) {
+            throw new IndexOutOfBoundsException("Index: " + index + " out of range");
+        }
         Node<E> tempNode = null;
-        if(index <= sizeOfList / 2){
+        if (index <= sizeOfList / 2) {
             tempNode = first;
-            for(int i = 0; i < index; i++){
+            for (int i = 0; i < index; i++) {
                 tempNode = tempNode.next;
             }
-        }
-        else{
+        } else {
             tempNode = last;
-            for(int i = sizeOfList - 1; i > index; i--){
+            for (int i = sizeOfList - 1; i > index; i--) {
                 tempNode = tempNode.prev;
             }
         }
 
-        return  tempNode.data;
+        return tempNode.data;
     }
-    public void addFirst(E value){
+
+    public void addFirst(E value) {
 
         Node<E> newNode = new Node<>(value);
         sizeOfList++;
 
-        if(first != null){
+        if (first != null) {
             newNode.next = first;
             first.prev = newNode;
             first = newNode;
-        }
-        else{
+        } else {
             first = newNode;
             last = newNode;
         }
     }
-    public void addLast(E value){
+
+    public void addLast(E value) {
 
         Node<E> newNode = new Node<>(value);
         sizeOfList++;
 
-        if(last != null){
+        if (last != null) {
             newNode.prev = last;
             last.next = newNode;
             last = newNode;
-        }
-        else{
+        } else {
             first = newNode;
             last = newNode;
         }
     }
-    public E getFirst(){
-        if(first == null){
+
+    public E getFirst() {
+        if (first == null) {
             throw new NoSuchElementException("List is empty");
         }
         return first.data;
     }
-    public E getLast(){
-        if(last == null){
+
+    public E getLast() {
+        if (last == null) {
             throw new NoSuchElementException("List is empty");
         }
         return last.data;
     }
+
     public E removeFirst() {
         if (first == null) {
             throw new NoSuchElementException("List is empty");
@@ -92,6 +100,7 @@ public class CustomLinkedList<E> {
         sizeOfList--;
         return removedData;
     }
+
     public E removeLast() {
         if (last == null) {
             throw new NoSuchElementException("List is empty");
@@ -107,25 +116,25 @@ public class CustomLinkedList<E> {
         sizeOfList--;
         return removedData;
     }
+
     public void add(int index, E value) {
         if (index < 0 || index > sizeOfList) {
             throw new IndexOutOfBoundsException("Index: " + index + " out of range");
         }
         if (index == 0) {
             addFirst(value);
-        }
-        else if (index == sizeOfList) {
+        } else if (index == sizeOfList) {
             addLast(value);
         } else {
 
             Node<E> newNode = new Node<>(value);
             Node<E> currentIndexNode;
 
-            if(index <= sizeOfList / 2){
+            if (index <= sizeOfList / 2) {
 
                 currentIndexNode = first;
 
-                for(int i = 0; i < index; i++){
+                for (int i = 0; i < index; i++) {
                     currentIndexNode = currentIndexNode.next;
                 }
                 newNode.prev = currentIndexNode.prev;
@@ -134,12 +143,11 @@ public class CustomLinkedList<E> {
                 currentIndexNode.prev = newNode;
 
 
-            }
-            else if(index > sizeOfList / 2){
+            } else if (index > sizeOfList / 2) {
 
                 currentIndexNode = last;
 
-                for(int i = 0; i < sizeOfList - index - 1; i++){
+                for (int i = 0; i < sizeOfList - index - 1; i++) {
                     currentIndexNode = currentIndexNode.prev;
                 }
                 newNode.prev = currentIndexNode.prev;
@@ -151,6 +159,7 @@ public class CustomLinkedList<E> {
             sizeOfList++;
         }
     }
+
     public E remove(int index) {
         E removedData = null;
         if (index < 0 || index > sizeOfList - 1) {
@@ -159,19 +168,18 @@ public class CustomLinkedList<E> {
         if (index == 0) {
             return removeFirst();
 
-        }
-        else if (index == sizeOfList - 1) {
+        } else if (index == sizeOfList - 1) {
             return removeLast();
 
         } else {
 
             Node<E> currentIndexNode;
 
-            if(index <= sizeOfList / 2){
+            if (index <= sizeOfList / 2) {
 
                 currentIndexNode = first;
 
-                for(int i = 0; i < index; i++){
+                for (int i = 0; i < index; i++) {
                     currentIndexNode = currentIndexNode.next;
                 }
                 removedData = currentIndexNode.data;
@@ -179,12 +187,11 @@ public class CustomLinkedList<E> {
                 currentIndexNode.next.prev = currentIndexNode.prev;
 
 
-            }
-            else if(index > sizeOfList / 2){
+            } else if (index > sizeOfList / 2) {
 
                 currentIndexNode = last;
 
-                for(int i = 0; i < sizeOfList - index - 1; i++){
+                for (int i = 0; i < sizeOfList - index - 1; i++) {
                     currentIndexNode = currentIndexNode.prev;
                 }
                 removedData = currentIndexNode.data;
@@ -196,6 +203,7 @@ public class CustomLinkedList<E> {
         }
         return removedData;
     }
+
     @Override
     public String toString() {
         if (first == null) {
